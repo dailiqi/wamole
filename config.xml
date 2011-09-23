@@ -1,7 +1,7 @@
 <wamole>
 	<modules>
 		<bm>
-			<step>20</step>
+			<step>20000</step>
 			<autorun>false</autorun>
 			<statics>
 				<com.baidu.wamole.browser.StaticBrowser>

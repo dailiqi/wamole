@@ -9,14 +9,35 @@ import com.baidu.wamole.xml.CopyOnWriteList;
 public class BrowserManager implements Module {
 	private CopyOnWriteList<StaticBrowser> statics;
 	private CopyOnWriteList<Browser> browsers;
-	/*package */BrowserManager() {
+
+	/* package */BrowserManager() {
 	}
+
 	private int step = 20;
 
 	private boolean autorun;
 
 	public List<StaticBrowser> getStaticBrowsers() {
 		return statics.getView();
+	}
+
+	public boolean notice(String id) throws TestException {
+		List<Browser> brs = getBrowsers();
+		for (Browser br : brs) {
+			if (br.getId().equals(id)) {
+				br.notice();
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void removeBrowser(String id) {
+		List<Browser> brs = getBrowsers();
+		for (Browser br : brs) {
+			if (br.getId().equals(id))
+				browsers.remove(br);
+		}
 	}
 
 	public List<Browser> getBrowsers() {

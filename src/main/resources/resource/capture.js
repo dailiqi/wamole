@@ -10,12 +10,14 @@ var probe = {
 //	 * 服务器地址
 //	 */
 //	srvApi : 'probe',
+		
+	lastNotice : 0,
 	/**
 	 * 获取一个info的基本信息
 	 * 
 	 * @returns {___anonymous326_559}
 	 */
-	interval : 20,
+	interval : $("#step").val(),
 	/**
 	 * 一次服务器心跳
 	 * 
@@ -25,7 +27,7 @@ var probe = {
 		probe.timeoutHandle && clearTimeout(probe.timeoutHandle);
 		var cov = probe.stringify(cov) || '';
 		var options = probe.starttime ? {
-			name : probe.kiss.toString(),
+//			name : probe.kiss.toString(),
 			starttime : probe.starttime.toString(),
 			endtime : new Date().getTime(),
 			fail : data ? data[0] : 1,
@@ -34,9 +36,9 @@ var probe = {
 		// caseinfo : probe.testframe.src// ,
 		// cov : probe.js
 		} : {};
-		options.interval = 20;
-		options.browser = probe.browserName;
-		options.id = probe.browserId;
+//		options.interval = probe.interval;
+//		options.browser = probe.browserName;
+//		options.id = probe.browserId;
 //		options.name = probe.kiss;
 		delete probe.starttime;
 		$.ajax({
@@ -45,25 +47,19 @@ var probe = {
 			data : options,
 			type : 'put',
 			success : function(text) {
-				if(/id=#([^&]+)/.test(text)) {
-					setTimeout(function() {
-						probe.register(RegExp.$1);
-					},0)
-				} else {
+					probe.lastNotice = new Date().getTime();
 					setTimeout(function() {
 						probe.runtest(text);
-					}, 0)
+					}, 0);
 				}
-				
-			}
-		});
+			});
 		probe.timeoutHandle = setTimeout(probe.beat, probe.interval * 1000);
 	},
-	register : function(id) {
-		var search = location.search;
-		search = search + "&id=" +id;
-		location.search = search;
-	},
+//	register : function(id) {
+//		var search = location.search;
+//		search = search + "&id=" +id;
+//		location.search = search;
+//	},
 	/**
 	 * 执行一个用例
 	 * 
@@ -222,6 +218,4 @@ var probe = {
 		};
 	})()
 };
-/[?&]name=([^&]+)/.test(location.search) && (probe.browserName = RegExp.$1);
-/[?&]id=([^&]+)/.test(location.search) && (probe.browserId = RegExp.$1);
 $(document).ready(probe.beat);

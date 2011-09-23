@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.baidu.wamole.exception.TestException;
+import com.baidu.wamole.model.Wamole;
 
 public class Browser {
 	public static BrowserBuilder build(String ip, String userAgent) {
@@ -47,8 +48,21 @@ public class Browser {
 		this.lastNoticeTime = lastNoticeTime;
 	}
 
+//	public void setActive(boolean active) {
+//		this.active = active;
+//	}
 	public boolean isActive() {
-		return active;
+//		return active;
+		long buffer = System.currentTimeMillis() - lastNoticeTime;
+		BrowserManager bm = (BrowserManager) Wamole.getInstance().getModule(
+				BrowserManager.class);
+		long step = bm.getStep();
+		if(buffer > step *2) {
+			//当不active时 从管理中删除
+			bm.removeBrowser(this.id);
+			return false;
+		}
+		return true;
 	}
 
 	public String getName() {
@@ -212,7 +226,7 @@ public class Browser {
 			parseBrowser();
 			parseVersion();
 			this.browser.lastNoticeTime = System.currentTimeMillis();
-			this.browser.id = String.valueOf(new Random().nextInt(4));
+			this.browser.id = String.valueOf(new Random().nextInt(10000));
 			return browser;
 		}
 	}

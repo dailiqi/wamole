@@ -2,6 +2,7 @@ package com.baidu.wamole.resource;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,15 +10,21 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.baidu.wamole.browser.Browser;
 import com.baidu.wamole.browser.BrowserManager;
+import com.baidu.wamole.exception.TestException;
 import com.baidu.wamole.model.Wamole;
 import com.baidu.wamole.template.ConfigurationFactory;
 import com.sun.jersey.api.core.ResourceContext;
@@ -32,6 +39,7 @@ import freemarker.template.TemplateException;
  */
 @Produces("text/html;charset=UTF-8")
 public class BrowserResource {
+	Logger log = LoggerFactory.getLogger(BrowserResource.class);
 	@Context
 	UriInfo uriInfo;
 	@Context
@@ -46,8 +54,7 @@ public class BrowserResource {
 		try {
 			Template template = ConfigurationFactory.getInstance().getTemplate(
 					"browser/register.ftl");
-			Map<String, Object> map = new HashMap<String, Object>();
-			template.process(map, writer);
+			template.process(null, writer);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (TemplateException e) {
@@ -104,20 +111,40 @@ public class BrowserResource {
 
 	@GET
 	@Path("/capture/{ids}")
-	public Response capture() {
+	public Response getCapturePage() {
 		StringWriter writer = new StringWriter();
+		// 获取已存在的 list 进行对比
+		BrowserManager bm = (BrowserManager) Wamole.getInstance().getModule(
+				BrowserManager.class);
+		int step = bm.getStep();
 		try {
 			Template template = ConfigurationFactory.getInstance().getTemplate(
 					"browser/capture.ftl");
+			Map<String,Object> map = new HashMap<String ,Object>();
+			map.put("step", step);
 			try {
-				template.process(null, writer);
+				template.process(map, writer);
 			} catch (TemplateException e) {
 				e.printStackTrace();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return Response.ok(writer.toString()).build();
+	}
+	
+	@PUT
+	@Path("/capture/{ids}")
+	public Response capture(@PathParam("ids") String id) {
+		BrowserManager bm = (BrowserManager) Wamole.getInstance().getModule(
+				BrowserManager.class);
+		try {
+			bm.notice(id);
+		} catch (TestException e) {
+			e.printStackTrace();
+			return Response.status(500).build();
+		}
+		log.trace("capture" + new Date().getTime());
+		return Response.ok("").build();
 	}
 }

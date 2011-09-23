@@ -8,14 +8,14 @@
     <script type="text/javascript">
     	(function() {
     		var ua = window.navigator.userAgent;
-    		alert(ua + "jquery version:" + $.browser.version);
+    		//alert(ua + "jquery version:" + $.browser.version);
     		$.post(location.href, {userAgent : ua} ,
 				//跳转至capture页面
     			function(result) {
-    				if(result) {
-    					location.href = "/browser/capture/" + result;	
+    				if(result == 'false') {
+    					$("#message").html("注册失败，该浏览器当前机器已有注册。");		
     				} else {
-    					$("#message").html("注册失败，该浏览器当前机器已有注册。");	
+	    				location.href = "/browser/capture/" + result;
     				}
     			}
     		);
@@ -23,7 +23,7 @@
     </script>
 </head>
 <body>
-<div id="messgae"></div>
+<div id="message"></div>
 
 </body>
 </html>
