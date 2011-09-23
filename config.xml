@@ -1,0 +1,35 @@
+<wamole>
+	<modules>
+		<bm>
+			<step>20</step>
+			<autorun>false</autorun>
+			<statics>
+				<com.baidu.wamole.browser.StaticBrowser>
+					<host>localhost</host>
+					<path>C:/Program Files/Internet Explorer/IEXPLORE.EXE</path>
+					<invoker>com.baidu.wamole.browser.STAFInvoker</invoker>
+				</com.baidu.wamole.browser.StaticBrowser>
+			</statics>
+			<browsers/>
+		</bm>
+	</modules>
+	<config class="com.baidu.wamole.config.TangramConfig"/>
+	<projects>
+		<com.baidu.wamole.model.TangramProject>
+			<name>t</name>
+			<rootDir>F:\Workplaces\Workplace\Tangram-base</rootDir>
+			<inited>false</inited>
+			<casepattern>/test/baidu/**/*.js</casepattern>
+			<processor class="com.baidu.wamole.process.TangramProcessor" />
+		</com.baidu.wamole.model.TangramProject>
+		<com.baidu.wamole.model.TangramProject>
+			<name>tc</name>
+			<rootDir>F:\Workplaces\Workplace\Tangram-component</rootDir>
+			<inited>false</inited>
+			<casepattern>/test/baidu/**/*.js</casepattern>
+			<processor class="com.baidu.wamole.process.TangramComponentProcessor">
+				<depend>t</depend>
+			</processor>
+		</com.baidu.wamole.model.TangramProject>
+	</projects>
+</wamole>

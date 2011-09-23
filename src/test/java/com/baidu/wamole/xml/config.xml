@@ -1,0 +1,24 @@
+<wamole.model.Wamole>
+	<config class="com.baidu.wamole.config.TangramConfig">
+		<browsers>
+			<com.baidu.wamole.config.browser.Browser>
+				<type>com.baidu.wamole.config.browser.BrowserType.IE6</type>
+				<ip>10.32.34.115</ip>
+				<path>c://IE6.exe</path>
+			</com.baidu.wamole.config.browser.Browser>
+			<com.baidu.wamole.config.browser.Browser>
+				<type>IE7</type>
+				<ip>10.32.34.115</ip>
+				<path>c://IE7.exe</path>
+			</com.baidu.wamole.config.browser.Browser>
+		</browsers>
+	</config>
+	<projects>
+		<com.baidu.wamole.model.TangramProject>
+			<name>t</name>
+			<rootDir></rootDir>
+			<inited>false</inited>
+			<casepattern>test/**.js</casepattern>
+		</com.baidu.wamole.model.TangramProject>
+	</projects>
+</wamole.model.Wamole>

@@ -1,0 +1,92 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	border: 0;
+	height: 100%;
+}
+
+body {
+	font: 12px/1.5 Lucida Grande, Helvetica, Arial, sans-serif;
+	background: #F3F1F1;
+	color: #41464D;
+}
+
+a {
+	text-decoration: none;
+}
+
+#title {
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding: 5px 0;
+	background: #aaa;
+	background: #41464D;
+	color: #F3F1F1;
+	height: 30px;
+}
+
+a:link,a:visited {
+	color: #528CE0;
+}
+
+a:hover,a:active {
+	color: #41464D !important;
+	cursor: pointer !important;
+}
+
+.head {
+	
+}
+
+.testlist {
+	width: 200px;
+	height: 100%;
+	overflow-y: auto;
+	float: left;
+}
+
+.testlist a {
+	display: block;
+	width: 150px;
+	color: #657528;
+	background: #d5dea7;
+	border: 1px solid #c8dc7b;
+	margin: 5px 0 0 5px;
+	text-indent: 5px;
+	line-height: 24px;
+	font-size: 14px;
+	line-height: 24px;
+}
+
+.testlist a:hover {
+	background: #c8dc7b;
+}
+
+.testlist a.running {
+	color: yellow;
+}
+.testlist a.nocase {
+	color:blue;
+}
+.testlist a.fail {
+	color: red;
+}
+
+.testlist a.pass {
+	color: green;
+}
+
+.runningarea {
+	height: 600px;
+	width: 800px;
+	float: left;
+}
+
+.runningarea iframe {
+	width: 99%;
+	height: 99%;
+}

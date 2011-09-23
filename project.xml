@@ -1,0 +1,10 @@
+<project>
+	<builders>
+		<execute class="com.baidu.wamole.exec.TangramExecutor">
+			<pattern>test/*.js</pattern>
+		</execute>
+	</builders>
+	<reports>
+		<output>report/report.xml</output>
+	</reports>
+</project>
