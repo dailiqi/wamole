@@ -10,8 +10,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.baidu.wamole.model.JsProject;
 import com.baidu.wamole.model.Project;
-import com.baidu.wamole.model.TangramKiss;
+import com.baidu.wamole.model.JsKiss;
 import com.baidu.wamole.template.ConfigurationFactory;
 import com.baidu.wamole.util.FileUtil;
 import com.caucho.config.ConfigException;
@@ -19,7 +20,7 @@ import com.caucho.config.ConfigException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
-public class TangramProcessor implements Processor<TangramKiss> {
+public class TangramProcessor implements Processor<JsKiss> {
 
 	// protected String depend;
 	protected static final String REGEX = "///import\\s([^;]+);";
@@ -35,7 +36,7 @@ public class TangramProcessor implements Processor<TangramKiss> {
 	 * com.baidu.wamole.process.Processor#process(com.baidu.wamole.model.Kiss)
 	 */
 	@Override
-	public String process(TangramKiss kiss) throws ConfigException {
+	public String process(JsKiss kiss) throws ConfigException {
 		init();
 		processResource(kiss);
 		return loadTemplate(kiss);
@@ -46,7 +47,7 @@ public class TangramProcessor implements Processor<TangramKiss> {
 		matched = new ArrayList<String>();
 	}
 
-	private String loadTemplate(TangramKiss kiss) {
+	private String loadTemplate(JsKiss kiss) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Template template = null;
 		try {
@@ -68,10 +69,8 @@ public class TangramProcessor implements Processor<TangramKiss> {
 		return writer.toString();
 	}
 
-	protected void processResource(TangramKiss kiss) throws ConfigException {
+	protected void processResource(JsKiss kiss) throws ConfigException {
 		this.project = kiss.getProject();
-//		this.list.add("/project/" + project.getName()
-//				+ "/view/test/tools/br/js/UserAction.js");
 		list.add("/resource/UserAction.js");
 		this.getDepends(project.getRootDir()
 				+ kiss.getName().replace("test", "src"));

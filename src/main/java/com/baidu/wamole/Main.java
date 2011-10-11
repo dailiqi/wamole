@@ -17,7 +17,7 @@ import com.baidu.wamole.server.ProjectHandlerWrapper;
 import com.baidu.wamole.server.RestfulHandlerWrapper;
 
 public class Main {
-	private List<Project> projects;
+	private List<Project<?, ?>> projects;
 	private final String root;
 
 	public static void main(String[] args) throws Exception {

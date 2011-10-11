@@ -853,11 +853,11 @@ var UserAction =
 			return;
 		}
 
-		win = win || window;
+		win = win || window;	
 		var doc = win.document;
 
-		var srcpath = location.href.split("/run.do")[0]
-				+ "/test/tools/br/import.php";
+		var srcpath = location.href.split("/exec")[0]
+		+ "/view/test/tools/br/import.php";
 		var param0 = src;
 		var ps = {
 			f : src

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -25,7 +26,9 @@ import org.slf4j.LoggerFactory;
 import com.baidu.wamole.browser.Browser;
 import com.baidu.wamole.browser.BrowserManager;
 import com.baidu.wamole.exception.TestException;
+import com.baidu.wamole.model.JsKiss;
 import com.baidu.wamole.model.Wamole;
+import com.baidu.wamole.task.Result;
 import com.baidu.wamole.template.ConfigurationFactory;
 import com.sun.jersey.api.core.ResourceContext;
 
@@ -120,7 +123,7 @@ public class BrowserResource {
 		try {
 			Template template = ConfigurationFactory.getInstance().getTemplate(
 					"browser/capture.ftl");
-			Map<String,Object> map = new HashMap<String ,Object>();
+			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("step", step);
 			try {
 				template.process(map, writer);
@@ -132,19 +135,42 @@ public class BrowserResource {
 		}
 		return Response.ok(writer.toString()).build();
 	}
-	
+
 	@PUT
 	@Path("/capture/{ids}")
-	public Response capture(@PathParam("ids") String id) {
+	public Response capture(@PathParam("ids") String id,
+			@FormParam("name") String name,
+			@FormParam("starttime") String starttime,
+			@FormParam("endtime") String endtime,
+			@FormParam("fail") String fail, @FormParam("total") String total,
+			@FormParam("cov") String cov) {
+		
+		System.out.println(starttime);
+		System.out.println(endtime);
+		log.trace("capture" + new Date().getTime());
 		BrowserManager bm = (BrowserManager) Wamole.getInstance().getModule(
 				BrowserManager.class);
+		if(null == bm.getBrowser(id)) {
+			return Response.status(404).build();
+		}
+		Result result = new Result();
+		result.setBrowser(bm.getBrowser(id).getName());
+		if (null != endtime && !"undefined".equals(endtime)
+				&& !"".equals(endtime)) {
+			result.setFail(Integer.valueOf(fail));
+			result.setTotal(Integer.valueOf(total));
+			result.setName(name);
+			result.setTimeStamp(Long.valueOf(endtime) - Long.valueOf(starttime));
+		}
 		try {
-			bm.notice(id);
+			JsKiss kiss = bm.notice(id, result);
+			if (null == kiss)
+				return Response.ok("").build();
+			else
+				return Response.ok(kiss.getExecUrl()).build();
 		} catch (TestException e) {
 			e.printStackTrace();
 			return Response.status(500).build();
 		}
-		log.trace("capture" + new Date().getTime());
-		return Response.ok("").build();
 	}
 }

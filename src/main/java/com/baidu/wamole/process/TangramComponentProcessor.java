@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.baidu.wamole.model.Project;
-import com.baidu.wamole.model.TangramKiss;
+import com.baidu.wamole.model.JsKiss;
 import com.baidu.wamole.model.Wamole;
 import com.baidu.wamole.util.FileUtil;
 import com.caucho.config.ConfigException;
@@ -20,7 +20,7 @@ public class TangramComponentProcessor extends TangramProcessor {
 	private Project dependProject;
 
 	@Override
-	public void processResource(TangramKiss kiss) throws ConfigException {
+	public void processResource(JsKiss kiss) throws ConfigException {
 		dependProject = Wamole.getInstance().getProject(depend);
 		this.project = kiss.getProject();
 		// Component类型特有加入 UserAction及Tools

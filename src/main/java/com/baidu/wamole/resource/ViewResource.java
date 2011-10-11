@@ -30,7 +30,7 @@ public class ViewResource {
 	@GET
 	public Response get() {
 		StringWriter writer = new StringWriter();
-		List<Project> list = Wamole.getInstance().getProjectList().getView();
+		List<Project<?, ?>> list = Wamole.getInstance().getProjectList().getView();
 		try {
 			Template template = ConfigurationFactory.getInstance().getTemplate(
 					"project/list.ftl");

@@ -2,11 +2,15 @@ package com.baidu.wamole.model;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import com.baidu.wamole.browser.BrowserManager;
 import com.baidu.wamole.config.Config;
 import com.baidu.wamole.config.Config.NOOBConfig;
+import com.baidu.wamole.task.Build;
+import com.baidu.wamole.task.BuildThread;
 import com.baidu.wamole.xml.CopyOnWriteList;
 import com.baidu.wamole.xml.DefaultXStream;
 import com.baidu.wamole.xml.XmlFile;
@@ -14,12 +18,12 @@ import com.thoughtworks.xstream.XStream;
 
 public class Wamole {
 	private Config config = new NOOBConfig();
-	private CopyOnWriteList<Project> projects = new CopyOnWriteList<Project>();
+	private CopyOnWriteList<Project<?, ?>> projects = new CopyOnWriteList<Project<?, ?>>();
 	private transient final File root;
 	private static Wamole instance;
 	private CopyOnWriteList<Module> modules = new CopyOnWriteList<Module>();
-
-	public CopyOnWriteList<Project> getProjectList() {
+	private Queue<Build<?, ?>> buildQueue;
+	public CopyOnWriteList<Project<?, ?>> getProjectList() {
 		return projects;
 	}
 
@@ -27,6 +31,8 @@ public class Wamole {
 		this.root = root;
 		this.load();
 		instance = this;
+		buildQueue = new LinkedList<Build<?, ?>> ();
+		new BuildThread().start();
 	}
 
 	public List<Module> getModules() {
@@ -71,13 +77,21 @@ public class Wamole {
 		return instance;
 	}
 
-	public Project getProject(String name) {
-		List<Project> list = projects.getView();
-		for (Project project : list) {
+	public Project<?, ?> getProject(String name) {
+		List<Project<?, ?>> list = projects.getView();
+		for (Project<?, ?> project : list) {
 			if (project.getName().equals(name)) {
 				return project;
 			}
 		}
 		return null;
+	}
+	
+	public synchronized void addBuild(Build<?, ?> build) {
+		this.buildQueue.add(build);
+	}
+	
+	public synchronized Queue<Build<?, ?>> getBuildQueue() {
+		return this.buildQueue;
 	}
 }

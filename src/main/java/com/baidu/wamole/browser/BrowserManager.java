@@ -4,11 +4,16 @@ import java.util.List;
 
 import com.baidu.wamole.exception.TestException;
 import com.baidu.wamole.model.Module;
+import com.baidu.wamole.model.JsKiss;
+import com.baidu.wamole.task.BuildStep;
+import com.baidu.wamole.task.JsBuildStep;
+import com.baidu.wamole.task.Result;
 import com.baidu.wamole.xml.CopyOnWriteList;
 
 public class BrowserManager implements Module {
 	private CopyOnWriteList<StaticBrowser> statics;
 	private CopyOnWriteList<Browser> browsers;
+	private JsBuildStep buildStep;
 
 	/* package */BrowserManager() {
 	}
@@ -21,15 +26,34 @@ public class BrowserManager implements Module {
 		return statics.getView();
 	}
 
-	public boolean notice(String id) throws TestException {
-		List<Browser> brs = getBrowsers();
-		for (Browser br : brs) {
-			if (br.getId().equals(id)) {
-				br.notice();
-				return true;
+	public JsKiss notice(String id, Result result) throws TestException {
+		getBrowser(id).notice();
+		if (null == buildStep) {
+			return null;
+		} else {
+			if(null != result && null != result.getName()) {
+				return (JsKiss) buildStep.getResultTable().store(result);
+			} else {
+				return (JsKiss) buildStep.getResultTable().getNextExcutableKiss(result.getBrowser());
 			}
 		}
-		return false;
+		//else {
+//			buildStep.getResultTable().store(null);
+		//}
+//		if (null != result.getName()) {
+//			return (TangramKiss) buildStep.getResultTable().store(result);
+//		} else {
+//			return null;
+//		}
+	}
+
+	public Browser getBrowser(String id) {
+		List<Browser> brs = getBrowsers();
+		for (Browser br : brs) {
+			if (br.getId().equals(id))
+				return br;
+		}
+		return null;
 	}
 
 	public void removeBrowser(String id) {
@@ -99,5 +123,13 @@ public class BrowserManager implements Module {
 				}
 			}.start();
 		}
+	}
+
+	public BuildStep getBuildStep() {
+		return buildStep;
+	}
+
+	public void setBuildStep(JsBuildStep buildStep) {
+		this.buildStep = buildStep;
 	}
 }

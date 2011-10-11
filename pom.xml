@@ -3,6 +3,19 @@
   <groupId>WaMole</groupId>
   <artifactId>WaMole</artifactId>
   <version>1.0.0</version>
+  <repositories>
+  	<repository>
+     <id>caucho</id>
+     <url>http://caucho.com/m2</url>
+   </repository>
+  </repositories>
+  <pluginRepositories>
+     <pluginRepository>
+       <id>caucho</id>
+       <name>Caucho</name>
+       <url>http://caucho.com/m2</url>
+     </pluginRepository>
+  </pluginRepositories>
   <build>
 		<plugins>
 			<plugin>
@@ -70,13 +83,6 @@
 			<version>20090211</version>
 		</dependency>
 		<dependency>
-			<groupId>quercus</groupId>
-			<artifactId>quercus</artifactId>
-			<version>4.0.11</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/quercus.jar</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
 			<version>2.3.16</version>
@@ -106,8 +112,23 @@
 		</dependency>
 		<dependency>
 			<groupId>com.caucho</groupId>
-			<artifactId>resin</artifactId>
-			<version>3.0.9</version>
+			<artifactId>resin-quercus</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.caucho</groupId> -->
+<!-- 			<artifactId>resin-quercus</artifactId> -->
+<!-- 			<version>3.0.9</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.caucho</groupId> -->
+<!-- 			<artifactId>resin-util</artifactId> -->
+<!-- 			<version>3.0.9</version> -->
+<!-- 		</dependency> -->
+		<dependency>
+			<groupId>org.eclipse.jetty.aggregate</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>8.0.0.M2</version>
 		</dependency>
 	</dependencies>
 	<properties>

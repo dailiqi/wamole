@@ -6,10 +6,6 @@
  * 提供一个轮询和超时机制
  */
 var probe = {
-//	/**
-//	 * 服务器地址
-//	 */
-//	srvApi : 'probe',
 		
 	lastNotice : 0,
 	/**
@@ -51,9 +47,15 @@ var probe = {
 					setTimeout(function() {
 						probe.runtest(text);
 					}, 0);
+				},
+			error : function(text) {
+				if(text.status == 404) {
+					window.close();
 				}
+//				alert(text);
+			}
 			});
-		probe.timeoutHandle = setTimeout(probe.beat, probe.interval * 1000);
+		probe.timeoutHandle = setTimeout(probe.beat, probe.interval);
 	},
 //	register : function(id) {
 //		var search = location.search;
@@ -79,7 +81,7 @@ var probe = {
 			div.className = "runningarea";
 			div.appendChild(probe.testframe);
 		}
-		/[?&]case=([^&]+)/.test(src) && (probe.kiss = RegExp.$1);
+		///[?&]case=([^&]+)/.test(src) && (probe.kiss = RegExp.$1);
 		$(probe).one('done', probe.beat);
 		probe.starttime = new Date().getTime();
 		probe.testframe.src = src;

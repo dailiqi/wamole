@@ -12,10 +12,10 @@ import com.caucho.quercus.servlet.QuercusServlet;
 
 public class ProjectHandlerWrapper implements HandlerWrapper {
 	HandlerCollection handlers = new HandlerCollection();
-	private List<Project> list;
+	private List<Project<?, ?>> list;
 
 	
-	public ProjectHandlerWrapper(List<Project> list) {
+	public ProjectHandlerWrapper(List<Project<?, ?>> list) {
 		this.list = list;
 	}
 
@@ -26,7 +26,7 @@ public class ProjectHandlerWrapper implements HandlerWrapper {
 	}
 
 	private void build() {
-		for (Project project : list) {
+		for (Project<?, ?> project : list) {
 			WebAppContext context = new WebAppContext(project.getRootDir(), "/project/"
 					+ project.getName() + "/view");
 			// 设定resource可在server启动后改变

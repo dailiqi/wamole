@@ -7,5 +7,6 @@
 <body>
     <div><a href="/project/${project.name}/view/">工作空间</a></div>
     <div><a href="/project/${project.name}/detail/">详细信息</a></div>
+    <div><a href="/project/${project.name}/build/">开始构建</a></div>
 </body>
 </html>

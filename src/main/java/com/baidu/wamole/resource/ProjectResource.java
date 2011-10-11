@@ -28,15 +28,15 @@ import freemarker.template.TemplateException;
  */
 @Produces("text/html;charset=UTF-8")
 public class ProjectResource {
-	private Project project;
+	private Project<?, ?> project;
 	@Context
 	UriInfo uriInfo;
 	@Context
 	ResourceContext context;
 
 	public void setName(String name) {
-		List<Project> list = Wamole.getInstance().getProjectList().getView();
-		for (Project project : list) {
+		List<Project<?, ?>> list = Wamole.getInstance().getProjectList().getView();
+		for (Project<?, ?> project : list) {
 			if (project.getName().equals(name)) {
 				this.project = project;
 			}
@@ -67,9 +67,19 @@ public class ProjectResource {
 	public ExecuteResource executeCase() {
 		return context.getResource(ExecuteResource.class);
 	}
+	@Path("/import")
+	public ImportResource importCase() {
+		return context.getResource(ImportResource.class);
+	}
 	@GET
 	@Path("/detail")
 	public Response getDetail() {
 		return Response.ok("detail").build();
+	}
+	@GET
+	@Path("/build")
+	public Response build() {
+		Wamole.getInstance().addBuild(project.getBuild());
+		return Response.ok("").build();
 	}
 }

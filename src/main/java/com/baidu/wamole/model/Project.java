@@ -3,8 +3,9 @@ package com.baidu.wamole.model;
 import java.util.List;
 
 import com.baidu.wamole.exception.TestException;
+import com.baidu.wamole.task.Build;
 
-public interface Project {
+public interface Project<P extends Project<P ,B> , B extends Build<B ,P>> {
 	/**
 	 * project alias
 	 * 
@@ -15,7 +16,7 @@ public interface Project {
 	/**
 	 * project base dir
 	 * 
-	 * @return
+	 * @returnw
 	 */
 	String getRootDir();
 
@@ -41,4 +42,6 @@ public interface Project {
 	 * @return
 	 */
 	String getExecutePage(String searchString) throws TestException;
+	
+	B getBuild();
 }

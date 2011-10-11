@@ -37,7 +37,7 @@ public class ExecuteResource {
 		System.out.println(uriInfo.getRequestUri());
 		String project = uri.substring("project/".length(),
 				uri.indexOf("/exec/"));
-		Project instance = Wamole.getInstance().getProject(project);
+		Project<?, ?> instance = Wamole.getInstance().getProject(project);
 		if (path.endsWith(".js"))
 			try {
 				return Response.ok(instance.getExecutePage(path)).build();

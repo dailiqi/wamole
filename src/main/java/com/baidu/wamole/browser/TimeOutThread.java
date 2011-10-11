@@ -31,6 +31,7 @@ public class TimeOutThread extends Thread {
 			synchronized (list) {
 				for (int i = 0; i < list.size(); i++) {
 					StaticBrowser sb = list.get(i);
+					// 当超过10次重启，则不再进行重启操作，直接返回
 					if(sb.faultCount > 10) {
 						return;
 					}

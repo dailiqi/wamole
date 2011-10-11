@@ -36,7 +36,8 @@ public class RootResource {
 	@GET
 	public Response getView() {
 		StringWriter writer = new StringWriter();
-		List<Project> list = Wamole.getInstance().getProjectList().getView();
+		List<Project<?, ?>> list = Wamole.getInstance().getProjectList()
+				.getView();
 		try {
 			Template template = ConfigurationFactory.getInstance().getTemplate(
 					"index.ftl");
@@ -66,5 +67,10 @@ public class RootResource {
 	@Path("/browser")
 	public BrowserResource browser() {
 		return context.getResource(BrowserResource.class);
+	}
+
+	@Path("/build")
+	public BuildResource build() {
+		return context.getResource(BuildResource.class);
 	}
 }

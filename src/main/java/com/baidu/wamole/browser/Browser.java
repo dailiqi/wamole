@@ -28,8 +28,6 @@ public class Browser {
 	private String os;
 	// 浏览器所在IP
 	private String ip;
-	// 是否激活状态-- 表示有任务正在运行
-	private boolean active;
 	// 启动中浏览器最后通知时间
 	protected long lastNoticeTime;
 
