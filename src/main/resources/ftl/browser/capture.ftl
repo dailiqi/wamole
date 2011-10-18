@@ -7,9 +7,6 @@
 	<div>${step}</div>
 	<input type="hidden" id="step" value="20000"/>
 	<div>The page will get task in <span id="second">a few</span> seconds.</div>
-<script type="text/javascript">
-window.close();
-</script>
 </body>
 
 <!--<script type="text/javascript">

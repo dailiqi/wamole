@@ -1,16 +1,20 @@
 package com.baidu.wamole.task;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.baidu.wamole.browser.Browser;
 import com.baidu.wamole.browser.BrowserManager;
 import com.baidu.wamole.model.Wamole;
+import com.baidu.wamole.template.ConfigurationFactory;
 import com.baidu.wamole.xml.CopyOnWriteList;
 
 public class JsBuildStep extends BuildStep {
 	private CopyOnWriteList<String> browsers;
-	private List<Browser> actives;
+	private List<String> actives;
 	private ResultTable resultTable;
 	private BrowserManager bm;
 	private List<String> browserList;
@@ -19,13 +23,13 @@ public class JsBuildStep extends BuildStep {
 	public boolean preBuild(AbstractBuild<?, ?> build) {
 		bm = (BrowserManager) Wamole.getInstance().getModule(
 				BrowserManager.class);
-		actives = config(bm.getBrowsers());
 		browserList = new ArrayList<String>();
 		for (String string : browsers.getView()) {
 			browserList.add(string.toLowerCase());
 		}
-		resultTable = new ResultTableImpl(browserList, build.getProject()
-				.getKisses(), bm.getStep());
+		actives = config(bm.getBrowsers());
+		resultTable = new ResultTableImpl(browserList, actives, build
+				.getProject().getKisses(), bm.getStep());
 		return actives.size() > 0;
 	}
 
@@ -37,8 +41,21 @@ public class JsBuildStep extends BuildStep {
 	public boolean perform(AbstractBuild<?, ?> build) {
 		bm.setBuildStep(this);
 		while (!resultTable.isDead()) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		try {
+			this.resultTable.save();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		bm.setBuildStep(null);
+		System.out.println("result table :" + this.resultTable.toString());
 		return true;
 	}
 
@@ -48,11 +65,15 @@ public class JsBuildStep extends BuildStep {
 	 * @param list
 	 * @return
 	 */
-	private List<Browser> config(List<Browser> list) {
-		List<Browser> result = new ArrayList<Browser>();
+	private List<String> config(List<Browser> list) {
+		List<String> result = new ArrayList<String>();
 		for (Browser browser : list) {
 			if (browserList.contains(browser.getName().toLowerCase())) {
-				result.add(browser);
+				if (browser.getName().toLowerCase().equals("msie")) {
+					result.add(browser.getName() + browser.getVersion());
+				} else {
+					result.add(browser.getName());
+				}
 			}
 		}
 		return result;

@@ -67,9 +67,9 @@ public class ProjectResource {
 	public ExecuteResource executeCase() {
 		return context.getResource(ExecuteResource.class);
 	}
-	@Path("/import")
-	public ImportResource importCase() {
-		return context.getResource(ImportResource.class);
+	@Path("/frame")
+	public FrameResource importCase() {
+		return context.getResource(FrameResource.class);
 	}
 	@GET
 	@Path("/detail")

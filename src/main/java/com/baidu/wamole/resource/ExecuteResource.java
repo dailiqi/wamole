@@ -31,10 +31,10 @@ public class ExecuteResource {
 	@Path("{path: .*}")
 	public Response execCase(@PathParam("path") String path) {
 		path = "/" + path;
-		System.out.println("path:" + path);
-		System.out.println(uriInfo.getPath());
+//		System.out.println("path:" + path);
+//		System.out.println(uriInfo.getPath());
 		String uri = uriInfo.getPath();
-		System.out.println(uriInfo.getRequestUri());
+//		System.out.println(uriInfo.getRequestUri());
 		String project = uri.substring("project/".length(),
 				uri.indexOf("/exec/"));
 		Project<?, ?> instance = Wamole.getInstance().getProject(project);

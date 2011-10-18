@@ -23,7 +23,7 @@ var probe = {
 		probe.timeoutHandle && clearTimeout(probe.timeoutHandle);
 		var cov = probe.stringify(cov) || '';
 		var options = probe.starttime ? {
-//			name : probe.kiss.toString(),
+			name : probe.kiss.split("/exec")[1],
 			starttime : probe.starttime.toString(),
 			endtime : new Date().getTime(),
 			fail : data ? data[0] : 1,
@@ -46,6 +46,9 @@ var probe = {
 					probe.lastNotice = new Date().getTime();
 					setTimeout(function() {
 						probe.runtest(text);
+						if(null != text && "" != text) {
+							probe.kiss = text;
+						}
 					}, 0);
 				},
 			error : function(text) {

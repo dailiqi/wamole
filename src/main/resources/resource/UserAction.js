@@ -774,11 +774,25 @@ var UserAction =
 			pw.$('div#div' + id).append('<iframe id="' + id + '"></iframe>');
 		}
 		op.onafterstart && op.onafterstart($('iframe#f')[0]);
-		pw.$('script').each(function() {
-			if (this.src && this.src.indexOf('import.php') >= 0) {
-				url = this.src.split('import.php')[1];
-			}
-		});
+//		var f = '';
+//		var e = '';
+//		pw.$('script').each(function() {
+//			if (this.src && this.src.indexOf('import.php') >= 0) {
+//				//import.php?f=xxx&e=xxx&cov=xxx
+//				//url = this.src.split('import.php')[1];
+//				/[?&]f=([^&]+)/.test(this.src);
+//				f+=','+RegExp.$1;
+//				/[?&]e=([^&]+)/.test(this.src);
+//				e+=RegExp.$1;
+//			}
+//		});
+//		url='?f='+f.substr(1)+'&e='+e;
+		var srcpath = location.href.replace("/exec/" , "/frame/");
+//		pw.$('script').each(function() {
+//			if (this.src && this.src.indexOf('import.php') >= 0) {
+//				url = this.src.split('import.php')[1];
+//			}
+//		});
 		pw.$(fid).one('load', function(e) {
 			var w = e.target.contentWindow;
 			var h = setInterval(function() {
@@ -789,7 +803,7 @@ var UserAction =
 				}
 			}, 20);
 			// 找到当前操作的iframe，然后call ontest
-		}).attr('src', location.href.replace("run.do","frame.do"));
+		}).attr('src', srcpath);
 	},
 
 	/**

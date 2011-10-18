@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TangramParser implements Parser<JsKiss, JsProject> {
-	Logger logger = LoggerFactory.getLogger(TangramParser.class);
 	private String srcdir;
 	private String testdir;
 	private Map<String, JsKiss> kisses;
@@ -43,7 +42,7 @@ public class TangramParser implements Parser<JsKiss, JsProject> {
 					//判断文件是否存在
 					if(new File(s.replace(srcdir, testdir)).exists() ) {
 						String testpath = s.replace(srcdir, testdir).replace(transSeprator(project.getRootDir()), "");
-						System.out.println(testpath);
+//						logger.debug("tangram parser parsed testcase path :" + testpath);
 						kisses.put(testpath, new JsKiss(project, testpath));
 					}
 				}

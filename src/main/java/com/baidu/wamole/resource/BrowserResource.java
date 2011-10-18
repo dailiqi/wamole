@@ -145,8 +145,8 @@ public class BrowserResource {
 			@FormParam("fail") String fail, @FormParam("total") String total,
 			@FormParam("cov") String cov) {
 		
-		System.out.println(starttime);
-		System.out.println(endtime);
+//		System.out.println(name);
+//		System.out.println(endtime);
 		log.trace("capture" + new Date().getTime());
 		BrowserManager bm = (BrowserManager) Wamole.getInstance().getModule(
 				BrowserManager.class);

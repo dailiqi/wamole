@@ -13,7 +13,7 @@ import com.baidu.wamole.model.Project;
 import com.baidu.wamole.model.Wamole;
 
 @Produces("text/html;charset=UTF-8")
-public class ImportResource {
+public class FrameResource {
 	@Context
 	UriInfo uriInfo;
 
@@ -33,14 +33,14 @@ public class ImportResource {
 		path = "/" + path;
 		String uri = uriInfo.getPath();
 		String project = uri.substring("project/".length(),
-				uri.indexOf("/import/"));
+				uri.indexOf("/frame/"));
 		Project<?, ?> instance = Wamole.getInstance().getProject(project);
 		if (path.endsWith(".js"))
 			try {
 				String s = instance.getExecutePage(path);
 				String testimport = s.substring(s.lastIndexOf("<script"), s.lastIndexOf("</script>") +"</script>".length());
 				s = s.replace(testimport, "");
-				System.out.println(s);
+//				System.out.println(s);
 				return Response.ok(s).build();
 			} catch (TestException e) {
 				e.printStackTrace();

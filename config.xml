@@ -24,11 +24,11 @@
 			<buildSteps>
 				<com.baidu.wamole.task.JsBuildStep>
 					<browsers>
-						<string>IE6</string>
-						<string>IE7</string>
-						<string>IE8</string>
-						<string>IE9</string>
+						<string>MSIE6.0</string>
+						<string>MSIE7.0</string>
+						<string>MSIE8.0</string>
 						<string>CHROME</string>
+						<string>GECKO</string>
 					</browsers>
 				</com.baidu.wamole.task.JsBuildStep>
 			</buildSteps>
