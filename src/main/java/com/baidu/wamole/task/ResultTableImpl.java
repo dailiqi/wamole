@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -159,7 +160,8 @@ public class ResultTableImpl implements ResultTable {
 		map.put("kisses", kissList);
 		map.put("results", results);
 		String root = System.getProperty("user.home") + "/.wamole";
-		String filePath = root + "/result/" + new Date().toString() + ".xml";
+		SimpleDateFormat dateformat1=new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+		String filePath = root + "/result/Report_" + dateformat1.format(new Date()) + ".xml";
 		File file = new File(filePath);
 		// 建立文件
 		if (!file.exists()) {
